@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: e70c9916d575e4b8c94335ee55a48e07
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Base_Link
+    100002: frontBumper
+    100004: frontLWheel
+    100006: frontRWheel
+    100008: mesh_1
+    100010: mesh_10
+    100012: mesh_11
+    100014: mesh_2
+    100016: mesh_3
+    100018: mesh_4
+    100020: mesh_5
+    100022: mesh_6
+    100024: mesh_7
+    100026: mesh_8
+    100028: mesh_9
+    100030: rearBumper
+    100032: rearLWheel
+    100034: rearRWheel
+    100036: Top_Chassis
+    100038: //RootNode
+    100040: User_Rail
+    400000: Base_Link
+    400002: frontBumper
+    400004: frontLWheel
+    400006: frontRWheel
+    400008: mesh_1
+    400010: mesh_10
+    400012: mesh_11
+    400014: mesh_2
+    400016: mesh_3
+    400018: mesh_4
+    400020: mesh_5
+    400022: mesh_6
+    400024: mesh_7
+    400026: mesh_8
+    400028: mesh_9
+    400030: rearBumper
+    400032: rearLWheel
+    400034: rearRWheel
+    400036: Top_Chassis
+    400038: //RootNode
+    400040: User_Rail
+    2100000: Grey
+    2100002: Dark
+    2100004: Grey.001
+    2100006: Grey.002
+    2100008: Grey.003
+    2100010: Dark.001
+    2100012: _
+    2100014: _2
+    2100016: _3
+    2100018: _4
+    2100020: _5
+    2100022: _1
+    2100024: _6
+    2100026: _7
+    2100028: _8
+    2100030: _9
+    2100032: _0
+    2100034: Yellow
+    2100036: Dark.003
+    2100038: Dark.004
+    2300000: Base_Link
+    2300002: frontBumper
+    2300004: frontLWheel
+    2300006: frontRWheel
+    2300008: mesh_1
+    2300010: mesh_10
+    2300012: mesh_11
+    2300014: mesh_2
+    2300016: mesh_3
+    2300018: mesh_4
+    2300020: mesh_5
+    2300022: mesh_6
+    2300024: mesh_7
+    2300026: mesh_8
+    2300028: mesh_9
+    2300030: rearBumper
+    2300032: rearLWheel
+    2300034: rearRWheel
+    2300036: Top_Chassis
+    2300038: User_Rail
+    3300000: Base_Link
+    3300002: frontBumper
+    3300004: frontLWheel
+    3300006: frontRWheel
+    3300008: mesh_1
+    3300010: mesh_10
+    3300012: mesh_11
+    3300014: mesh_2
+    3300016: mesh_3
+    3300018: mesh_4
+    3300020: mesh_5
+    3300022: mesh_6
+    3300024: mesh_7
+    3300026: mesh_8
+    3300028: mesh_9
+    3300030: rearBumper
+    3300032: rearLWheel
+    3300034: rearRWheel
+    3300036: Top_Chassis
+    3300038: User_Rail
+    4300000: rearRWheel
+    4300002: Base_Link
+    4300004: frontRWheel
+    4300006: rearLWheel
+    4300008: frontLWheel
+    4300010: frontBumper
+    4300012: mesh_8
+    4300014: mesh_6
+    4300016: mesh_9
+    4300018: mesh_3
+    4300020: mesh_1
+    4300022: mesh_11
+    4300024: mesh_5
+    4300026: mesh_7
+    4300028: mesh_4
+    4300030: mesh_2
+    4300032: mesh_10
+    4300034: Top_Chassis
+    4300036: User_Rail
+    4300038: rearBumper
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
