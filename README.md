@@ -1,6 +1,6 @@
-# DT-Hub-2022
+# ODSI
 
- DT Hub for Unity. Made in C#.
+ Operational Decision Support Interface for Unity. Made in C#.
 
 # Requirements
 Software and Hardware:
