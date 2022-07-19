@@ -10,21 +10,30 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.IO;
 
 public class TCPServer : MonoBehaviour
 {
+    //Initialise TCP Listeners for each communications channel
     private TcpListener spotTelemetrySocket, spotCommandSocket, huskyTelemetrySocket, huskyCommandSocket, jackalTelemetrySocket, jackalCommandSocket,
         HLSpotSocket, HLHuskySocket, HLTelloSocket, HLJackalSocket, HLGeneralSocket;
-    private Thread spotTelemetryThread, spotCommandThread, huskyTelemetryThread, huskyCommandThread, jackalTelemetryThread, jackalCommandThread,
-        HLSpotThread, HLHuskyThread, HLTelloThread, HLJackalThread, HLGeneralThread;
-    private TcpClient spotTelemetryClient, spotCommandClient, huskyTelemetryClient, huskyCommandClient, jackalTelemetryClient, jackalCommandClient;
-    public TextMeshProUGUI txt, HuskyErrors;
+    //Initialise threads for each communications channel
+    private Thread spotTelemetryThread, spotCommandThread, huskyTelemetryThread, huskyCommandThread, jackalTelemetryThread, jackalCommandThread/*,
+        HLSpotThread, HLHuskyThread, HLTelloThread, HLJackalThread, HLGeneralThread*/;
+    //Initialise TCP Clients for each robot
+    private TcpClient spotTelemetryClient, spotCommandClient, huskyClient, jackalClient;
+    //Initialise message text fields
+    public TextMeshProUGUI GenericMessages, HuskyErrors;
+    //Initialise Controller
     public Controller controller;
-    public Button b_SpotCmd, b_SpotAM, b_SpotBatt, b_HuskyCmd, b_HuskyArms, b_JackalCmd, b_SpotAllRooms, b_SpotCorrosion, b_AllCorrosion, b_AllCorrosionTelloJackal, b_SpotHome, b_SendHLTest;
+    //Initialise all UI buttons
+    public Button b_SpotCmd, b_SpotAM, b_SpotBatt, b_HuskyCmd, b_HuskyArms, b_JackalCmd, b_SpotAllRooms, b_SpotCorrosion, b_AllCorrosion, b_AllCorrosionTelloJackal,
+        b_SpotHome, b_SendHLTest;
+    //Initialise strings for receiving messages from robots
     string spotTelemetryMessage, spotCommandMessage, huskyTelemetryMessage, huskyCommandMessage, jackalCommandMessage, jackalTelemetryMessage, path;
-    string[] values, objects;
-    public int SpotTelemetryPort, SpotCommandPort, HuskyTelemetryPort, HuskyCommandPort, JackalTelemetryPort, JackalCommandPort, HLSpotPort, HLHuskyPort, HLTelloPort, HLJackalPort, HLGeneralPort;
+    //Initialise ints for port numbers
+    public int SpotTelemetryPort, SpotCommandPort, HuskyTelemetryPort, HuskyCommandPort, JackalTelemetryPort, JackalCommandPort/*,
+        HLSpotPort, HLHuskyPort, HLTelloPort, HLJackalPort, HLGeneralPort*/;
+    //Initialise strings for displaying robot parameters
     string s_runtime, s_battperc, s_powerstate, s_chargestatus, 
         s_huskyuptime, s_ros_cont_loop_freq, s_huskymcucurr, s_huskydcl,
         s_huskydcr, s_huskybattv, s_huskylv, s_huskyrv, s_huskyldt,
@@ -32,12 +41,15 @@ public class TCPServer : MonoBehaviour
         s_jackaluptime, s_jackal_ros_cont_loop_freq, s_jackal_mcucurr, s_jackaldcl,
         s_jackaldcr, s_jackalbattv, s_jackallv, s_jackalrv, s_jackalldt,
         s_jackalrdt, s_jackallmt, s_jackalrmt, s_jackalcapest, s_jackalchrgest;
+    //Initialise robot parameter text fields
     public TextMeshProUGUI t_runtime, t_battperc, t_powerstate, t_chargestatus, 
         t_huskyuptime, t_huskycurr, t_huskyv, t_huskycomponentt, t_huskybattcap,
         t_huskyuptime2, t_huskycurr2, t_huskyv2, t_huskycomponentt2, t_huskybattcap2,
         t_jackaluptime, t_jackalcurr, t_jackalv, t_jackalcomponentt, t_jackalbattcap,
         t_jackaluptime2, t_jackalcurr2, t_jackalv2, t_jackalcomponentt2, t_jackalbattcap2;
+    //Initialise 3D space text fields
     public TextMeshPro t_runtime2, t_battperc2, t_powerstate2, t_chargestatus2;
+    //Initialise symbiosis display
     public GameObject go_HuskySymbiosisNeedle, go_SpotSymbiosisNeedle;
     public float f_HuskySymbiosisLevel = 0.0f, f_SpotSymbiosisLevel = 0.0f, f_SymbioticIncrement = 1.0f, f_SymbioticDecrement = 0.1f, currentTime, targetTime;
     bool boo_AllMissionStart = false, boo_HasTargetBeenSet = false, boo_MissionRun = false, boo_batterymissionstart = false;
@@ -62,7 +74,8 @@ public class TCPServer : MonoBehaviour
         jackalTelemetryThread = new Thread(new ThreadStart(JackalListenForIncomingTelemetry)); ;
         jackalTelemetryThread.IsBackground = true;
         jackalTelemetryThread.Start();
-        HLSpotThread = new Thread(new ThreadStart(HLSpotSocketStart));
+        //Experimental HoloLens connection
+        /*HLSpotThread = new Thread(new ThreadStart(HLSpotSocketStart));
         HLSpotThread.IsBackground = true;
         HLSpotThread.Start();
         HLHuskyThread = new Thread(new ThreadStart(HLHuskySocketStart));
@@ -76,7 +89,7 @@ public class TCPServer : MonoBehaviour
         HLJackalThread.Start();
         HLGeneralThread = new Thread(new ThreadStart(HLGeneralSocketStart));
         HLGeneralThread.IsBackground = true;
-        HLGeneralThread.Start();
+        HLGeneralThread.Start();*/
         //huskyCommandThread = new Thread(new ThreadStart(HuskyListenForIncomingCommands));
         //huskyCommandThread.IsBackground = true;
         //huskyCommandThread.Start();
@@ -122,7 +135,7 @@ public class TCPServer : MonoBehaviour
     void SpotBatt()
     {
         SendSpotCmd("c");
-        txt.text = "Sending Spot on mission, confirming clear path with Tello.";
+        GenericMessages.text = "Sending Spot on mission, confirming clear path with Tello.";
         controller.StartClearPath();
     }
 
@@ -201,7 +214,7 @@ public class TCPServer : MonoBehaviour
 
     void SendHuskyCmd(string str)
     {
-        if (huskyTelemetryClient == null)
+        if (huskyClient == null)
         {
             Debug.Log("Socket Connection Null");
             return;
@@ -211,7 +224,7 @@ public class TCPServer : MonoBehaviour
             //encode the string to bytes
             byte[] _str = Encoding.ASCII.GetBytes(str);
             //get the outgoing network stream to write to
-            NetworkStream stream = huskyTelemetryClient.GetStream();
+            NetworkStream stream = huskyClient.GetStream();
             //write the message to the stream
             stream.Write(_str, 0, _str.Length);
             Debug.Log("Message Sent");
@@ -224,7 +237,7 @@ public class TCPServer : MonoBehaviour
 
     void SendJackalCmd(string str)
     {
-        if (jackalTelemetryClient == null)
+        if (jackalClient == null)
         {
             Debug.Log("Socket Connection Null");
             return;
@@ -234,7 +247,7 @@ public class TCPServer : MonoBehaviour
             //encode the string to bytes
             byte[] _str = Encoding.ASCII.GetBytes(str);
             //get the outgoing network stream to write to
-            NetworkStream stream = jackalTelemetryClient.GetStream();
+            NetworkStream stream = jackalClient.GetStream();
             //write the message to the stream
             stream.Write(_str, 0, _str.Length);
             Debug.Log("Message Sent");
@@ -354,9 +367,9 @@ public class TCPServer : MonoBehaviour
             byte[] bytes = new byte[1024];
             while (true)
             {
-                using (huskyTelemetryClient = huskyTelemetrySocket.AcceptTcpClient())
+                using (huskyClient = huskyTelemetrySocket.AcceptTcpClient())
                 {
-                    using (NetworkStream stream = huskyTelemetryClient.GetStream())
+                    using (NetworkStream stream = huskyClient.GetStream())
                     {
                         int length;
                         while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
@@ -414,9 +427,9 @@ public class TCPServer : MonoBehaviour
             byte[] bytes = new byte[1024];
             while (true)
             {
-                using (jackalTelemetryClient = jackalTelemetrySocket.AcceptTcpClient())
+                using (jackalClient = jackalTelemetrySocket.AcceptTcpClient())
                 {
-                    using (NetworkStream stream = jackalTelemetryClient.GetStream())
+                    using (NetworkStream stream = jackalClient.GetStream())
                     {
                         int length;
                         while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
@@ -460,7 +473,8 @@ public class TCPServer : MonoBehaviour
         }
     }
     #endregion
-
+    #region HL
+    /*
     void HLSpotSocketStart()
     {
         try
@@ -530,7 +544,8 @@ public class TCPServer : MonoBehaviour
             Debug.Log("Socket Exception " + e);
         }
     }
-
+    */
+    #endregion
     #region SpotCommands
     void SpotListenForIncomingCommands()
     {
@@ -620,7 +635,7 @@ public class TCPServer : MonoBehaviour
         boo_MissionRun = true;
         boo_AllMissionStart = false;
         Debug.Log("Mission running");
-        txt.text = "All platforms performing corrosion inspection";
+        GenericMessages.text = "All platforms performing corrosion inspection";
     }
 
     // Update is called once per frame
@@ -662,53 +677,53 @@ public class TCPServer : MonoBehaviour
 
             if (spotCommandMessage == "1")
             {
-                txt.text = "Systems Check Started";
+                GenericMessages.text = "Systems Check Started";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "2")
             {
-                txt.text = "Systems Check Complete!";
+                GenericMessages.text = "Systems Check Complete!";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "3")
             {
-                txt.text = "Autonomous Mission Started";
+                GenericMessages.text = "Autonomous Mission Started";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "4")
             {
-                txt.text = "Autonomous Mission Complete!";
+                GenericMessages.text = "Autonomous Mission Complete!";
                 spotCommandMessage = "";
                 //start another mission
             }
             if (spotCommandMessage == "5")
             {
-                txt.text = "Fetch Mission Started";
+                GenericMessages.text = "Fetch Mission Started";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "6")
             {
-                txt.text = "Fetch Mission Complete!";
+                GenericMessages.text = "Fetch Mission Complete!";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "7")
             {
-                txt.text = "All robot corrosion Mission Started";
+                GenericMessages.text = "All robot corrosion Mission Started";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "8")
             {
-                txt.text = "All robot corrosion Mission Complete!";
+                GenericMessages.text = "All robot corrosion Mission Complete!";
                 spotCommandMessage = "";
             }
             if(spotCommandMessage == "9")
             {
-                txt.text = "Spot going home.";
+                GenericMessages.text = "Spot going home.";
                 spotCommandMessage = "";
             }
             if (spotCommandMessage == "10")
             {
-                txt.text = "Spot in layby.";
+                GenericMessages.text = "Spot in layby.";
                 spotCommandMessage = "";
                 //AllCorrosion();
             }
@@ -717,12 +732,12 @@ public class TCPServer : MonoBehaviour
         {
             if (huskyCommandMessage == "1")
             {
-                txt.text = "Husky autonomous mission started";
+                GenericMessages.text = "Husky autonomous mission started";
                 huskyCommandMessage = "";
             }
             if (huskyCommandMessage == "2")
             {
-                txt.text = "Husky autonomous mission running";
+                GenericMessages.text = "Husky autonomous mission running";
                 huskyCommandMessage = "";
             }
             if (huskyCommandMessage == "3")
@@ -809,12 +824,12 @@ public class TCPServer : MonoBehaviour
         {
             if (jackalCommandMessage == "1")
             {
-                txt.text = "Jackal autonomous mission started";
+                GenericMessages.text = "Jackal autonomous mission started";
                 jackalCommandMessage = "";
             }
             if (huskyCommandMessage == "2")
             {
-                txt.text = "Jackal autonomous mission running";
+                GenericMessages.text = "Jackal autonomous mission running";
                 jackalCommandMessage = "";
             }
 
