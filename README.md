@@ -22,7 +22,7 @@ Builds for:
 
 # How to Run
 - Open the Unity project in 2020.3.11f1 (no earlier version supported)
-- Connect SparkFun RFID reader to a USB port. Check the COM port in the Windows Device Manager. If it's not COM3, the Port Name public variable on the SerialController GameObject will need to be changed to the correct COM port.
+- Connect SparkFun RFID reader to a USB port. Check the COM port in the Windows Device Manager or in Terminal (Mac). If it's not /dev/tty.usbserial-A10KLPXO, the Port Name public variable on the SerialController GameObject will need to be changed to the correct COM port.
 - Configure RFID access, to do this, open a serial reader (Arduino IDE for example), scan an RFID card and copy the output. Paste this output into one of the if statements in RFIDRead.cs, found in the Scripts GameObject.
 - Optional: Connect Xbox controller to the PC through either USB or Bluetooth
 - Optional: Connect webcam(s) or use built in webcam
