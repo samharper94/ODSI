@@ -8,7 +8,7 @@ Software and Hardware:
 
 Optional:
 - Xbox One/Series S|X controller
-- Ethernet connection or secondary WiFi connection to local network to allow for external connectivity with Tello
+- Ethernet connection or secondary WiFi connection to local network to allow for external connectivity with Tello and robots
 - Webcam(s)
 - Clearpath Husky
 - Boston Dynamics Spot
@@ -28,6 +28,8 @@ Builds for:
 - Optional: Connect webcam(s) or use built in webcam
 - Change WiFi network to the Tello
 - Run app
+
+At this time, connection to Spot and any robots running ROS requires some custom scripts on the robot side to enable the messages to be sent. This area is under development.
 
 # How to Build
 AT THIS TIME, BUILD ONLY SUPPORTED FOR WINDOWS 10/11, WINDOWS X86_64 STANDALONE APP OR MAC MOJAVE IN INTEL, NOT UWP OR ANDROID
