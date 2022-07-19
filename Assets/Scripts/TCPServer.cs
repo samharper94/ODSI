@@ -14,15 +14,17 @@ using System.IO;
 
 public class TCPServer : MonoBehaviour
 {
-    private TcpListener spotTelemetrySocket, spotCommandSocket, huskyTelemetrySocket, huskyCommandSocket, jackalTelemetrySocket, jackalCommandSocket;
-    private Thread spotTelemetryThread, spotCommandThread, huskyTelemetryThread, huskyCommandThread, jackalTelemetryThread, jackalCommandThread;
+    private TcpListener spotTelemetrySocket, spotCommandSocket, huskyTelemetrySocket, huskyCommandSocket, jackalTelemetrySocket, jackalCommandSocket,
+        HLSpotSocket, HLHuskySocket, HLTelloSocket, HLJackalSocket, HLGeneralSocket;
+    private Thread spotTelemetryThread, spotCommandThread, huskyTelemetryThread, huskyCommandThread, jackalTelemetryThread, jackalCommandThread,
+        HLSpotThread, HLHuskyThread, HLTelloThread, HLJackalThread, HLGeneralThread;
     private TcpClient spotTelemetryClient, spotCommandClient, huskyTelemetryClient, huskyCommandClient, jackalTelemetryClient, jackalCommandClient;
     public TextMeshProUGUI txt, HuskyErrors;
     public Controller controller;
-    public Button b_SpotCmd, b_SpotAM, b_SpotBatt, b_HuskyCmd, b_HuskyArms, b_JackalCmd, b_SpotAllRooms, b_SpotCorrosion, b_AllCorrosion, b_AllCorrosionTelloJackal, b_SpotHome;
+    public Button b_SpotCmd, b_SpotAM, b_SpotBatt, b_HuskyCmd, b_HuskyArms, b_JackalCmd, b_SpotAllRooms, b_SpotCorrosion, b_AllCorrosion, b_AllCorrosionTelloJackal, b_SpotHome, b_SendHLTest;
     string spotTelemetryMessage, spotCommandMessage, huskyTelemetryMessage, huskyCommandMessage, jackalCommandMessage, jackalTelemetryMessage, path;
     string[] values, objects;
-    public int SpotTelemetryPort, SpotCommandPort, HuskyTelemetryPort, HuskyCommandPort, JackalTelemetryPort, JackalCommandPort;
+    public int SpotTelemetryPort, SpotCommandPort, HuskyTelemetryPort, HuskyCommandPort, JackalTelemetryPort, JackalCommandPort, HLSpotPort, HLHuskyPort, HLTelloPort, HLJackalPort, HLGeneralPort;
     string s_runtime, s_battperc, s_powerstate, s_chargestatus, 
         s_huskyuptime, s_ros_cont_loop_freq, s_huskymcucurr, s_huskydcl,
         s_huskydcr, s_huskybattv, s_huskylv, s_huskyrv, s_huskyldt,
@@ -60,6 +62,21 @@ public class TCPServer : MonoBehaviour
         jackalTelemetryThread = new Thread(new ThreadStart(JackalListenForIncomingTelemetry)); ;
         jackalTelemetryThread.IsBackground = true;
         jackalTelemetryThread.Start();
+        HLSpotThread = new Thread(new ThreadStart(HLSpotSocketStart));
+        HLSpotThread.IsBackground = true;
+        HLSpotThread.Start();
+        HLHuskyThread = new Thread(new ThreadStart(HLHuskySocketStart));
+        HLHuskyThread.IsBackground = true;
+        HLHuskyThread.Start();
+        HLTelloThread = new Thread(new ThreadStart(HLTelloSocketStart));
+        HLTelloThread.IsBackground = true;
+        HLTelloThread.Start();
+        HLJackalThread = new Thread(new ThreadStart(HLJackalSocketStart));
+        HLJackalThread.IsBackground = true;
+        HLJackalThread.Start();
+        HLGeneralThread = new Thread(new ThreadStart(HLGeneralSocketStart));
+        HLGeneralThread.IsBackground = true;
+        HLGeneralThread.Start();
         //huskyCommandThread = new Thread(new ThreadStart(HuskyListenForIncomingCommands));
         //huskyCommandThread.IsBackground = true;
         //huskyCommandThread.Start();
@@ -74,6 +91,7 @@ public class TCPServer : MonoBehaviour
         b_SpotCorrosion.onClick.AddListener(SpotCorrosion);
         b_AllCorrosion.onClick.AddListener(AllCorrosion);
         b_AllCorrosionTelloJackal.onClick.AddListener(AllCorrosionTelloJackal);
+        //b_SendHLTest.onClick.AddListener(SendHLTest);
         //path = Application.streamingAssetsPath + "/ports.txt";
 
         //Write some text to the test.txt file
@@ -131,6 +149,11 @@ public class TCPServer : MonoBehaviour
     void SpotHome()
     {
         SendSpotCmd("e");
+    }
+
+    void SendHLTest()
+    {
+        SendHLTestData();
     }
 
     void AllCorrosion_MoveSpot()
@@ -215,6 +238,25 @@ public class TCPServer : MonoBehaviour
             //write the message to the stream
             stream.Write(_str, 0, _str.Length);
             Debug.Log("Message Sent");
+        }
+        catch (SocketException e)
+        {
+            Debug.Log("Socket Exception " + e);
+        }
+    }
+
+    void SendHLTestData()
+    {
+        try
+        {
+            //encode the string to bytes
+            byte[] _strS = Encoding.ASCII.GetBytes("spot");
+            //get the outgoing network stream to write to
+            //NetworkStream stream = HLSpotSocket.GetStream();
+            ////write the message to the stream
+            //stream.Write(_str, 0, _str.Length);
+            //stream.Close();
+            //Debug.Log("Message Sent");
         }
         catch (SocketException e)
         {
@@ -418,6 +460,76 @@ public class TCPServer : MonoBehaviour
         }
     }
     #endregion
+
+    void HLSpotSocketStart()
+    {
+        try
+        {
+            HLSpotSocket = new TcpListener(IPAddress.Any, HLSpotPort);
+            HLSpotSocket.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            HLSpotSocket.Start();
+        }
+        catch (SocketException e)
+        {
+            Debug.Log("Socket Exception " + e);
+        }
+    }
+
+    void HLTelloSocketStart()
+    {
+        try
+        {
+            HLTelloSocket = new TcpListener(IPAddress.Any, HLTelloPort);
+            HLTelloSocket.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            HLTelloSocket.Start();
+        }
+        catch (SocketException e)
+        {
+            Debug.Log("Socket Exception " + e);
+        }
+    }
+
+    void HLHuskySocketStart()
+    {
+        try
+        {
+            HLHuskySocket = new TcpListener(IPAddress.Any, HLHuskyPort);
+            HLHuskySocket.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            HLHuskySocket.Start();
+        }
+        catch (SocketException e)
+        {
+            Debug.Log("Socket Exception " + e);
+        }
+    }
+
+    void HLJackalSocketStart()
+    {
+        try
+        {
+            HLJackalSocket = new TcpListener(IPAddress.Any, HLJackalPort);
+            HLJackalSocket.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            HLJackalSocket.Start();
+        }
+        catch (SocketException e)
+        {
+            Debug.Log("Socket Exception " + e);
+        }
+    }
+
+    void HLGeneralSocketStart()
+    {
+        try
+        {
+            HLGeneralSocket = new TcpListener(IPAddress.Any, HLGeneralPort);
+            HLGeneralSocket.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            HLGeneralSocket.Start();
+        }
+        catch (SocketException e)
+        {
+            Debug.Log("Socket Exception " + e);
+        }
+    }
 
     #region SpotCommands
     void SpotListenForIncomingCommands()
@@ -663,10 +775,11 @@ public class TCPServer : MonoBehaviour
                 + "Right Driver Temp: " + s_huskyrdt + "C\n"
                 + "Left Motor Temp: " + s_huskylmt + "C\n"
                 + "Right Motor Temp: " + s_huskyrmt + "C";
+            float f_huskychrgest = float.Parse(s_huskychrgest) * 100;
             t_huskybattcap.text = "Battery Capacity = " + s_huskycapest + "Wh\n"
-                + "Charge Estimate = " + s_huskychrgest + "%";
+                + "Charge Estimate = " + f_huskychrgest + "%";
             t_huskybattcap2.text = "Battery Capacity = " + s_huskycapest + "Wh\n"
-                + "Charge Estimate = " + s_huskychrgest + "%";
+                + "Charge Estimate = " + f_huskychrgest + "%";
             f_HuskySymbiosisLevel += 0.01f;
         }
         else
@@ -731,10 +844,11 @@ public class TCPServer : MonoBehaviour
                 + "Right Driver Temp: " + s_jackalrdt + "C\n"
                 + "Left Motor Temp: " + s_jackallmt + "C\n"
                 + "Right Motor Temp: " + s_jackalrmt + "C";
+            float f_jackalchrgest = float.Parse(s_jackalchrgest) * 100;
             t_jackalbattcap.text = "Battery Capacity = " + s_jackalcapest + "Wh\n"
-                + "Charge Estimate = " + s_jackalchrgest + "%";
+                + "Charge Estimate = " + f_jackalchrgest + "%";
             t_jackalbattcap2.text = "Battery Capacity = " + s_jackalcapest + "Wh\n"
-                + "Charge Estimate = " + s_jackalchrgest + "%";
+                + "Charge Estimate = " + f_jackalchrgest + "%";
         }
 
         //go_HuskySymbiosisNeedle.transform.localEulerAngles = new Vector3(0, 0, -f_HuskySymbiosisLevel);
