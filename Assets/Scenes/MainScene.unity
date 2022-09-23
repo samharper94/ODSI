@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12782,7 +12782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &753795798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23163,7 +23163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1391199204
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29223,7 +29223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c635e45ee7381b640b0975f1ee40709e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txt: {fileID: 1401108821}
+  GenericMessages: {fileID: 0}
   HuskyErrors: {fileID: 1573718101}
   controller: {fileID: 1693073190}
   b_SpotCmd: {fileID: 1219249276}
@@ -29237,6 +29237,7 @@ MonoBehaviour:
   b_AllCorrosion: {fileID: 943684462}
   b_AllCorrosionTelloJackal: {fileID: 618498539}
   b_SpotHome: {fileID: 1645298862}
+  b_SendHLTest: {fileID: 0}
   SpotTelemetryPort: 22223
   SpotCommandPort: 22224
   HuskyTelemetryPort: 22222
@@ -29273,8 +29274,10 @@ MonoBehaviour:
   t_chargestatus2: {fileID: 802115216}
   go_HuskySymbiosisNeedle: {fileID: 346242863}
   go_SpotSymbiosisNeedle: {fileID: 1381547676}
-  f_HuskySymbiosisLevel: 0
-  f_SpotSymbiosisLevel: 0
+  go_TelloSymbiosisNeedle: {fileID: 1255482156}
+  f_HuskySymbiosisLevel: 90
+  f_SpotSymbiosisLevel: 180
+  f_TelloSymbiosisLevel: 0
   f_SymbioticIncrement: 1
   f_SymbioticDecrement: 0.1
   currentTime: 0

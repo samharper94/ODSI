@@ -50,8 +50,8 @@ public class TCPServer : MonoBehaviour
     //Initialise 3D space text fields
     public TextMeshPro t_runtime2, t_battperc2, t_powerstate2, t_chargestatus2;
     //Initialise symbiosis display
-    public GameObject go_HuskySymbiosisNeedle, go_SpotSymbiosisNeedle;
-    public float f_HuskySymbiosisLevel = 0.0f, f_SpotSymbiosisLevel = 0.0f, f_SymbioticIncrement = 1.0f, f_SymbioticDecrement = 0.1f, currentTime, targetTime;
+    public GameObject go_HuskySymbiosisNeedle, go_SpotSymbiosisNeedle, go_TelloSymbiosisNeedle;
+    public float f_HuskySymbiosisLevel = 0.0f, f_SpotSymbiosisLevel = 0.0f, f_TelloSymbiosisLevel = 0.0f, f_SymbioticIncrement = 1.0f, f_SymbioticDecrement = 0.1f, currentTime, targetTime;
     bool boo_AllMissionStart = false, boo_HasTargetBeenSet = false, boo_MissionRun = false, boo_batterymissionstart = false;
 
     // Use this for initialization
@@ -669,11 +669,11 @@ public class TCPServer : MonoBehaviour
             t_powerstate2.text = "Motor power state: " + s_powerstate.Split(':')[1];
             t_chargestatus.text = "Battery charge status: " + s_chargestatus.Split(':')[1];
             t_chargestatus2.text = "Battery charge status: " + s_chargestatus.Split(':')[1];
-            f_SpotSymbiosisLevel += 1f;
+            //f_SpotSymbiosisLevel += 1f;
         }
         if (spotCommandMessage != null)
         {
-            f_SpotSymbiosisLevel += 1f;
+            //f_SpotSymbiosisLevel += 1f;
 
             if (spotCommandMessage == "1")
             {
@@ -751,18 +751,18 @@ public class TCPServer : MonoBehaviour
                // }
                 //else { }
             }
-            f_HuskySymbiosisLevel += 0.1f;
+            //f_HuskySymbiosisLevel += 0.1f;
 
         }
         else
         {
             if (f_SpotSymbiosisLevel > 0.0f)
             {
-                f_SpotSymbiosisLevel -= 0.1f;
+                //f_SpotSymbiosisLevel -= 0.1f;
             }
             if (f_SpotSymbiosisLevel < 0.1f)
             {
-                f_SpotSymbiosisLevel = 0.0f;
+                //f_SpotSymbiosisLevel = 0.0f;
             }
         }
         if (huskyTelemetryMessage != null)
@@ -795,20 +795,20 @@ public class TCPServer : MonoBehaviour
                 + "Charge Estimate = " + f_huskychrgest + "%";
             t_huskybattcap2.text = "Battery Capacity = " + s_huskycapest + "Wh\n"
                 + "Charge Estimate = " + f_huskychrgest + "%";
-            f_HuskySymbiosisLevel += 0.01f;
+            //f_HuskySymbiosisLevel += 0.01f;
         }
         else
         {
             if (f_HuskySymbiosisLevel > 0.0f)
             {
-                f_HuskySymbiosisLevel -= 0.1f;
+                //f_HuskySymbiosisLevel -= 0.1f;
             }
             if (f_HuskySymbiosisLevel < 0.1f)
             {
-                f_HuskySymbiosisLevel = 0.0f;
+                //f_HuskySymbiosisLevel = 0.0f;
             }
         }
-        if (f_HuskySymbiosisLevel > 180.0f && huskyCommandMessage != null)
+       /* if (f_HuskySymbiosisLevel > 180.0f && huskyCommandMessage != null)
         {
             f_HuskySymbiosisLevel = 180.0f;
         }
@@ -820,6 +820,7 @@ public class TCPServer : MonoBehaviour
         {
             f_SpotSymbiosisLevel = 180.0f;
         }
+       */
         if (jackalCommandMessage != null)
         {
             if (jackalCommandMessage == "1")
@@ -866,8 +867,9 @@ public class TCPServer : MonoBehaviour
                 + "Charge Estimate = " + f_jackalchrgest + "%";
         }
 
-        //go_HuskySymbiosisNeedle.transform.localEulerAngles = new Vector3(0, 0, -f_HuskySymbiosisLevel);
-        //go_SpotSymbiosisNeedle.transform.localEulerAngles = new Vector3(0, 0, -f_SpotSymbiosisLevel);
+        go_HuskySymbiosisNeedle.transform.localEulerAngles = new Vector3(0, 0, -f_HuskySymbiosisLevel) + go_TelloSymbiosisNeedle.transform.localEulerAngles;
+        go_SpotSymbiosisNeedle.transform.localEulerAngles = new Vector3(0, 0, -f_SpotSymbiosisLevel);
+        go_TelloSymbiosisNeedle.transform.localEulerAngles = new Vector3(0, 0, -f_TelloSymbiosisLevel);
 
     }
 
